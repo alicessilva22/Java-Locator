@@ -1,7 +1,6 @@
 // Node Modules
 import React from 'react';
 import { useQuery } from '@apollo/client';
-import { coffee } from '../utils/API';
 // Utilities
 import Auth from '../utils/auth';
 import { QUERY_USERS } from '../utils/queries';
@@ -9,7 +8,7 @@ import { QUERY_USERS } from '../utils/queries';
 import UserList from '../components/UserList';
 
 const Home = () => {
-  const { loading, data } = useQuery(QUERY_USERS, { variables, context: { clientName: 'yelp-third-party' } });
+  const { loading, data } = useQuery(QUERY_USERS);
   const users = data?.users || [];
 
   const renderUserList = () => {
@@ -29,9 +28,6 @@ const Home = () => {
     <main>
       <div>
         {renderUsername()}
-      </div>
-      <div>
-        coffee:{coffee}
       </div>
       <div>
         {renderUserList()}

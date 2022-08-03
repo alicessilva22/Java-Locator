@@ -7,24 +7,20 @@ import {
 } from '@apollo/client';
 import { setContext } from '@apollo/client/link/context';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { ApolloLink } from "apollo-link";
 
-import Home from './pages/Home';
-import Signup from './pages/Signup';
-import Login from './pages/Login';
-import Profile from './pages/Profile';
-import Header from './components/Header';
-import Footer from './components/Footer';
+
+import SearchedMovies from './pages/SearchedMovies';
+
+
+
 
 // Construct our main GraphQL API endpoint
 const httpLink = createHttpLink({
   uri: '/graphql',
 });
-
-// Construct request middleware that will attach the JWT token to every request as an `authorization` header
 const authLink = setContext((_, { headers }) => {
-  // get the authentication token from local storage if it exists
   const token = localStorage.getItem('id_token');
-  // return the headers to the context so httpLink can read them
   return {
     headers: {
       ...headers,
@@ -32,27 +28,49 @@ const authLink = setContext((_, { headers }) => {
     },
   };
 });
-
+const yelpLink = new createHttpLink({
+  uri: "https://api.yelp.com/v3/graphql",
+});
+const yelpAuthLink = setContext((_, { headers }) => {
+  return {
+    headers: {
+      ...headers,
+      authorization: `Bearer ${process.env.REACT_APP_YELP_API_KEY}`,
+      'Content-Type': 'application/graphql',
+    },
+  };
+});
+const YelpAuthorization = new ApolloClient({
+  link: ApolloLink.split(
+    operation => operation.getContext().clientName === "third-party",
+    yelpAuthLink, // <= apollo will send to this if clientName is "third-party"
+    yelpLink // <= otherwise will send to this
+  )
+});
 const client = new ApolloClient({
-  // Set up our client to execute the `authLink` middleware prior to making the request to our GraphQL API
   link: authLink.concat(httpLink),
   cache: new InMemoryCache(),
 });
 
+// const YelpAuthorization = new ApolloClient({
+//   link: yelpAuthLink.concat(yelpLink),
+//   cache: new InMemoryCache(),
+// });
+
 function App() {
   return (
-    <ApolloProvider client={client}>
+    <ApolloProvider client={client} YelpAuthorization={YelpAuthorization}>
       <Router>
         <>
-          <Header />
+          {/* <Header /> */}
           <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/login" element={<Login />} />
+            <Route path="/" element={<SearchedMovies />} />
+            {/* <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Signup />} />
             <Route path="/me" element={<Profile />} />
-            <Route path="/users/:id" element={<Profile />} />
+            <Route path="/users/:id" element={<Profile />} /> */}
           </Routes>
-          <Footer />
+          {/* <Footer /> */}
         </>
       </Router>
     </ApolloProvider>
