@@ -29,3 +29,20 @@ export const QUERY_ME = gql`
     }
   }
 `;
+
+export const QUERY_FROM_YELP = gql`
+  query businesses {
+  context: { clientName: 'third-party'}
+    {search
+      (term: "Coffee", location: "san francisco") {
+        business {
+          name
+          rating
+          review_count
+          location {
+            address1
+          }
+        }
+      }
+    }
+`;
