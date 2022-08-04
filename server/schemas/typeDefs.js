@@ -1,21 +1,6 @@
 const { gql } = require('apollo-server-express');
 
 const typeDefs = gql`
-  type Address {
-    address1: String
-  }
-
-  type Business {
-    location: [Address]
-    name: String
-    rating: Float
-    review_count: Int
-  }
-
-  type Search {
-    business: [Business]
-  }
-
   type User {
     _id: ID
     username: String
@@ -32,7 +17,6 @@ const typeDefs = gql`
     users: [User]
     user(id: ID!): User
     me: User
-    
   }
 
   type Mutation {
