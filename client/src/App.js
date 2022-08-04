@@ -10,14 +10,6 @@ import { setContext } from '@apollo/client/link/context';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import { ChakraProvider } from '@chakra-ui/react'
 
-// import Home from './pages/Home';
-// import Signup from './pages/Signup';
-// import Login from './pages/Login';
-// import Profile from './pages/Profile';
-// import Header from './components/Header';
-// import Footer from './components/Footer';
-import SearchedShops from './pages/SearchedShops';
-
 // Construct our main GraphQL API endpoint
 const httpLink = new HttpLink({ uri: '/graphql' });
 
@@ -73,7 +65,7 @@ function App() {
             {/* <Header /> */}
             <div className="container">
               <Route exact path="/">
-                <SearchedMovies />
+                
               </Route>
               {/* <Route exact path="/login">
                 <Login />
