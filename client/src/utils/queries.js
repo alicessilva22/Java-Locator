@@ -30,9 +30,8 @@ export const QUERY_ME = gql`
   }
 `;
 
-export const QUERY_FROM_YELP = gql`
+export const QUERY_BUSINESSES = gql`
   query businesses {
-  context: { clientName: 'third-party'}
     {search
       (term: "Coffee", location: "san francisco") {
         business {
