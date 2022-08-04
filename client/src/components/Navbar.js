@@ -9,7 +9,6 @@ import {
   Link,
   Popover,
   PopoverTrigger,
-  PopoverContent,
   useColorModeValue,
   useBreakpointValue,
   useDisclosure,
@@ -24,14 +23,14 @@ import {
 import LogoSVG from '../assets/logoSVG.js';
 import Auth from '../utils/auth';
 
+const logout = (event) => {
+  event.preventDefault();
+  Auth.logout();
+};
+
 export default function Navbar() {
   const { colorMode, toggleColorMode } = useColorMode();
   const { isOpen, onToggle } = useDisclosure();
-
-  const logout = (event) => {
-    event.preventDefault();
-    Auth.logout();
-  };
 
   return (
     <Box>
@@ -102,15 +101,15 @@ export default function Navbar() {
               </Button>
             </> :
             <Button
-            display={{ base: 'none', md: 'inline-flex' }}
-            as={'a'}
-            fontSize={'sm'}
-            fontWeight={400}
-            variant={'link'}
-            href={'#'}
-            onClick={logout}>
-            Sign Out
-          </Button>}
+              display={{ base: 'none', md: 'inline-flex' }}
+              as={'a'}
+              fontSize={'sm'}
+              fontWeight={400}
+              variant={'link'}
+              href={'#'}
+              onClick={logout}>
+              Sign Out
+            </Button>}
           <Button onClick={toggleColorMode}>
             {colorMode === 'light' ? <MoonIcon /> : <SunIcon />}
           </Button>
@@ -127,8 +126,7 @@ export default function Navbar() {
 const DesktopNav = () => {
   const linkColor = useColorModeValue('gray.600', 'gray.200');
   const linkHoverColor = useColorModeValue('gray.800', 'white');
-  const popoverContentBgColor = useColorModeValue('white', 'gray.800');
-
+  
   return (
     <Stack direction={'row'} spacing={4}>
       {NAV_ITEMS.map((navItem) => (
@@ -148,50 +146,10 @@ const DesktopNav = () => {
                 {navItem.label}
               </Link>
             </PopoverTrigger>
-
-            {navItem.children && (
-              <PopoverContent
-                border={0}
-                boxShadow={'xl'}
-                bg={popoverContentBgColor}
-                p={4}
-                rounded={'xl'}
-                minW={'sm'}>
-                <Stack>
-                  {navItem.children.map((child) => (
-                    <DesktopSubNav key={child.label} {...child} />
-                  ))}
-                </Stack>
-              </PopoverContent>
-            )}
           </Popover>
         </Box>
       ))}
     </Stack>
-  );
-};
-
-const DesktopSubNav = ({ label, href, subLabel }) => {
-  return (
-    <Link
-      href={href}
-      role={'group'}
-      display={'block'}
-      p={2}
-      rounded={'md'}
-      _hover={{ bg: useColorModeValue('green.50', 'gray.900') }}>
-      <Stack direction={'row'} align={'center'}>
-        <Box>
-          <Text
-            transition={'all .3s ease'}
-            _groupHover={{ color: 'green.400' }}
-            fontWeight={500}>
-            {label}
-          </Text>
-          <Text fontSize={'sm'}>{subLabel}</Text>
-        </Box>
-      </Stack>
-    </Link>
   );
 };
 
@@ -204,18 +162,35 @@ const MobileNav = () => {
       {NAV_ITEMS.map((navItem) => (
         <MobileNavItem key={navItem.label} {...navItem} />
       ))}
-      {MOBILE_NAV_ITEMS.map((navItem) => (
-        <MobileNavItem key={navItem.label} {...navItem} />
-      ))}
+      {Auth.loggedIn ?
+        MOBILE_NAV_ITEMS.map((navItem) => (
+          <MobileNavItem key={navItem.label} {...navItem} />
+        )) :
+        <Stack spacing={4}>
+          <Flex
+            py={2}
+            as={Button}
+            justify={'space-between'}
+            align={'center'}
+            onClick={logout}
+            _hover={{
+              textDecoration: 'none',
+            }}>
+            <Text
+              fontWeight={600}
+              color={useColorModeValue('gray.600', 'gray.200')}>
+              {label}
+            </Text>
+          </Flex>
+        </Stack>
+      }
     </Stack>
   );
 };
 
 const MobileNavItem = ({ label, children, href }) => {
-  const { onToggle } = useDisclosure();
-
   return (
-    <Stack spacing={4} onClick={children && onToggle}>
+    <Stack spacing={4}>
       <Flex
         py={2}
         as={Link}
