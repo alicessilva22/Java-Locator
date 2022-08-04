@@ -31,14 +31,15 @@ export const QUERY_ME = gql`
 `;
 
 export const YELP_SEARCH = gql`
-  query search{
-    search(term:"coffee", location:"san francisco") {
-      business {
-        name
-        reviews {
-          rating
-        }
+  query search($term: String, $location: String) {
+  search(term:$term, location:$location) {
+    business {
+      name
+      rating
+      location {
+        address1
       }
     }
   }
+}
 `;

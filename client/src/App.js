@@ -44,6 +44,7 @@ const yelpAuthLink = setContext((_, { headers }) => {
     headers: {
       ...headers,
       authorization: `Bearer ${process.env.REACT_APP_YELP_API_KEY}`,
+      contentType: 'application/graphQL'
     },
   };
 });
