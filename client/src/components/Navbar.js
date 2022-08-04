@@ -160,6 +160,7 @@ const MobileNav = () => {
     <Stack
       bg={useColorModeValue('white', 'gray.800')}
       p={4}
+      color={useColorModeValue('gray.600', 'gray.200')}
       display={{ md: 'none' }}>
       {NAV_ITEMS.map((navItem) => (
         <MobileNavItem key={navItem.label} {...navItem} />
@@ -179,9 +180,8 @@ const MobileNav = () => {
               textDecoration: 'none',
             }}>
             <Text
-              fontWeight={600}
-              color={useColorModeValue('gray.600', 'gray.200')}>
-              {label}
+              fontWeight={600}>
+              Sign&nbsp;Out
             </Text>
           </Flex>
         </Stack>

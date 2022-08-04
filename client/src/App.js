@@ -7,8 +7,19 @@ import {
   HttpLink,
 } from '@apollo/client';
 import { setContext } from '@apollo/client/link/context';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
-import { ChakraProvider } from '@chakra-ui/react'
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+} from "react-router-dom";
+import { ChakraProvider, Flex } from '@chakra-ui/react';
+import Navbar from './components/Navbar';
+import Favorites from './pages/Favorites';
+import Home from './pages/Home';
+import Login from './pages/Login';
+import Profile from './pages/Profile';
+import Search from './pages/Search';
+import Signup from './pages/Signup';
 
 // Construct our main GraphQL API endpoint
 const httpLink = new HttpLink({ uri: '/graphql' });
@@ -28,8 +39,8 @@ const authLink = setContext((_, { headers }) => {
 
 const expressLink = authLink.concat(httpLink);
 
-const coffeeLink = new HttpLink({ 
-  uri: 'https://api.yelp.com/v3/graphql' 
+const coffeeLink = new HttpLink({
+  uri: 'https://api.yelp.com/v3/graphql'
 });
 
 const yelpAuthLink = setContext((_, { headers }) => {
@@ -44,7 +55,6 @@ const yelpAuthLink = setContext((_, { headers }) => {
 
 const yelpLink = yelpAuthLink.concat(coffeeLink);
 
-
 const directionalLink = ApolloLink.split(
   (operation) => operation.getContext().clientName === 'third-party',
   yelpLink,
@@ -58,33 +68,39 @@ const client = new ApolloClient({
 
 function App() {
   return (
-    <ChakraProvider>
-      <ApolloProvider client={client}>
+    <ApolloProvider client={client}>
+      <ChakraProvider>
         <Router>
-          <div className="flex-column justify-flex-start min-100-vh">
-            {/* <Header /> */}
-            <div className="container">
-              <Route exact path="/">
-                
+          <Flex
+            flexDirection='column'
+            width='100wh'
+            height='100vh'
+          >
+            <Navbar />
+            <Switch>
+              <Route exact path='/'>
+                <Home />
               </Route>
-              {/* <Route exact path="/login">
+              <Route exact path='/profile'>
+                <Profile />
+              </Route>
+              <Route exact path='/favorites'>
+                <Favorites />
+              </Route>
+              <Route exact path='/search'>
+                <Search />
+              </Route>
+              <Route exact path='/login'>
                 <Login />
               </Route>
-              <Route exact path="/signup">
+              <Route exact path='/signup'>
                 <Signup />
               </Route>
-              <Route exact path="/me">
-                <Profile />
-              </Route>
-              <Route exact path="/users/:id">
-                <Profile />
-              </Route> */}
-            </div>
-            {/* <Footer /> */}
-          </div>
+            </Switch>
+          </Flex>
         </Router>
-      </ApolloProvider>
-    </ChakraProvider>
+      </ChakraProvider>
+    </ApolloProvider>
   );
 }
 
