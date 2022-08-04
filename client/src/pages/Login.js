@@ -16,14 +16,13 @@ import {
   useColorModeValue,
   Text
 } from '@chakra-ui/react';
-import { FaUserAlt, FaLock } from 'react-icons/fa';
+import { FaEnvelope, FaLock } from 'react-icons/fa';
 import { Link as RouteLink } from "react-router-dom";
 import { useMutation } from '@apollo/client';
 import { LOGIN_USER } from '../utils/mutations';
 import Auth from '../utils/auth';
 
-
-const CFaUserAlt = chakra(FaUserAlt);
+const CFaEnvelope = chakra(FaEnvelope);
 const CFaLock = chakra(FaLock);
 
 export default function Login() {
@@ -59,7 +58,6 @@ export default function Login() {
     });
   };
 
-
   return (
     <Flex
       marginTop='20vh'
@@ -76,7 +74,7 @@ export default function Login() {
         <Avatar />
         <Heading>Welcome</Heading>
         <Box minW={{ base: '90%', md: '468px' }}>
-          {data ?
+          {!data ?
             <form
               onSubmit={handleFormSubmit}>
               <Stack
@@ -87,11 +85,11 @@ export default function Login() {
                 <FormControl>
                   <InputGroup>
                     <InputLeftElement pointerEvents='none'>
-                      <CFaUserAlt color='gray.300' />
+                      <CFaEnvelope color='gray.300' />
                     </InputLeftElement>
                     <Input
                       type='email'
-                      placeholder='email address'
+                      placeholder='Your email'
                       onChange={handleChange}
                     />
                   </InputGroup>
@@ -132,8 +130,8 @@ export default function Login() {
               <RouteLink to="/">back to the homepage.</RouteLink>
             </Text>
           }
-          {error && <Text>{error.message}</Text>}
         </Box>
+        {error && <Text color='red.500'>Failed to log in.</Text>}
       </Stack>
       <Box>
         Don&apos;t have an account?&nbsp;
