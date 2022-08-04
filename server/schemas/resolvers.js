@@ -20,13 +20,15 @@ const resolvers = {
     },
 
     shops: async (_, args, context) => {
-      return axios({
+      const data = await axios({
         method: 'GET',
         url: 'https://api.yelp.com/v3/businesses/search?term=coffee&location=cary',
         headers: {
           'Bearer': process.env.YELP_API_KEY
         }
       })
+      console.log(data)
+      return data;
     },
   },
 
