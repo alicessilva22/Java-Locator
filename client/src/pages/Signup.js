@@ -90,7 +90,9 @@ export default function Login() {
                     </InputLeftElement>
                     <Input
                       type='text'
+                      name='username'
                       placeholder='Your username'
+                      value={formState.username}
                       onChange={handleChange}
                     />
                   </InputGroup>
@@ -102,7 +104,9 @@ export default function Login() {
                     </InputLeftElement>
                     <Input
                       type='email'
+                      name='email'
                       placeholder='Your email'
+                      value={formState.email}
                       onChange={handleChange}
                     />
                   </InputGroup>
@@ -117,7 +121,9 @@ export default function Login() {
                     </InputLeftElement>
                     <Input
                       type={showPassword ? 'text' : 'password'}
+                      name='password'
                       placeholder='Password'
+                      value={formState.password}
                       onChange={handleChange}
                     />
                     <InputRightElement width='4.5rem'>

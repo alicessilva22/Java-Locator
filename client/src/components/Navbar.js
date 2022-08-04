@@ -81,7 +81,6 @@ export default function Navbar() {
               <RouteLink to='/login'>
                 <Button
                   display={{ base: 'none', md: 'inline-flex' }}
-                  as={Link}
                   bg='none'
                   fontSize={'sm'}
                   fontWeight={400}>
