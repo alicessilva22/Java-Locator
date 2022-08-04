@@ -7,12 +7,8 @@ import {
   HttpLink,
 } from '@apollo/client';
 import { setContext } from '@apollo/client/link/context';
-<<<<<<< HEAD
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-=======
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import { ChakraProvider } from '@chakra-ui/react'
->>>>>>> ddf2bab (Refactor)
 
 // import Home from './pages/Home';
 // import Signup from './pages/Signup';
