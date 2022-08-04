@@ -7,7 +7,7 @@ import {
   HttpLink,
 } from '@apollo/client';
 import { setContext } from '@apollo/client/link/context';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 // import Home from './pages/Home';
 // import Signup from './pages/Signup';
@@ -15,7 +15,7 @@ import { BrowserRouter as Router, Route } from 'react-router-dom';
 // import Profile from './pages/Profile';
 // import Header from './components/Header';
 // import Footer from './components/Footer';
-import SearchedMovies from "./pages/SearchedMovies";
+import SearchedShops from './pages/SearchedShops';
 
 // Construct our main GraphQL API endpoint
 const httpLink = new HttpLink({ uri: '/graphql' });
@@ -69,21 +69,21 @@ function App() {
         <div className="flex-column justify-flex-start min-100-vh">
           {/* <Header /> */}
           <div className="container">
-            <Route exact path="/">
-              <SearchedMovies />
-            </Route>
-            {/* <Route exact path="/login">
-              <Login />
-            </Route>
-            <Route exact path="/signup">
-              <Signup />
-            </Route>
-            <Route exact path="/me">
-              <Profile />
-            </Route>
-            <Route exact path="/users/:id">
-              <Profile />
-            </Route> */}
+            <Routes>
+              <Route path="/" element={<SearchedShops />} />
+              {/* <Route exact path="/login">
+                <Login />
+              </Route>
+              <Route exact path="/signup">
+                <Signup />
+              </Route>
+              <Route exact path="/me">
+                <Profile />
+              </Route>
+              <Route exact path="/users/:id">
+                <Profile />
+              </Route> */}
+            </Routes>
           </div>
           {/* <Footer /> */}
         </div>

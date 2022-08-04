@@ -30,18 +30,15 @@ export const QUERY_ME = gql`
   }
 `;
 
-export const QUERY_BUSINESSES = gql`
-  query businesses {
-    {search
-      (term: "Coffee", location: "san francisco") {
-        business {
-          name
+export const YELP_SEARCH = gql`
+  query search{
+    search(term:"coffee", location:"san francisco") {
+      business {
+        name
+        reviews {
           rating
-          review_count
-          location {
-            address1
-          }
         }
       }
     }
+  }
 `;
