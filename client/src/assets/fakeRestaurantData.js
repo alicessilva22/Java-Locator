@@ -22,15 +22,9 @@ const fakeRestaurantData = {
         "longitude": -122.42184275
       },
       "image_url": "http://s3-media2.fl.yelpcdn.com/bphoto/MmgtASP3l_t4tPCL1iAsCg/o.jpg",
-      "location": {
-        "city": "San Francisco",
-        "country": "US",
-        "address2": "",
-        "address3": "",
-        "state": "CA",
-        "address1": "375 Valencia St",
-        "zip_code": "94103"
-      },
+      "location": [
+        "375 Valencia St", "San Francisco, US 94103"
+      ],
       "distance": 1604.23,
       "transactions": ["pickup", "delivery"]
     },

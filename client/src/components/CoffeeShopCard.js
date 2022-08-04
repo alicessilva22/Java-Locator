@@ -12,11 +12,12 @@ export default function CoffeeShopCard({ coffeeShopData, cardButton }) {
   const toggleTextColor = useColorModeValue('gray.600', 'gray.400');
 
   const { rating, review_count, name, location, url, image_url } = coffeeShopData;
-  const [address, city] = location.join(' ');
+  const [address, city] = location;
 
   return (
     <HStack
       maxW='lg'
+      maxHeight={{base: '125px', md: '175px'}}
       borderWidth='1px'
       borderRadius='lg'
       overflow='hidden'

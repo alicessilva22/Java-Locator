@@ -1,12 +1,35 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-
+import {
+  Flex,
+  Heading,
+  Input,
+  Button,
+  InputGroup,
+  Stack,
+  InputLeftElement,
+  chakra,
+  Box,
+  Link,
+  Avatar,
+  FormControl,
+  InputRightElement,
+  useColorModeValue,
+  Text
+} from '@chakra-ui/react';
+import { FaUserAlt, FaLock, FaEnvelope } from 'react-icons/fa';
+import { Link as RouteLink } from "react-router-dom";
 import { useMutation } from '@apollo/client';
 import { ADD_USER } from '../utils/mutations';
-
 import Auth from '../utils/auth';
 
-const Signup = () => {
+const CFAEnvelope = chakra(FaEnvelope);
+const CFaUserAlt = chakra(FaUserAlt);
+const CFaLock = chakra(FaLock);
+
+
+export default function Login() {
+  const [showPassword, setShowPassword] = useState(false);
+  const handleShowClick = () => setShowPassword(!showPassword);
   const [formState, setFormState] = useState({
     username: '',
     email: '',
@@ -14,77 +37,123 @@ const Signup = () => {
   });
   const [addUser, { error, data }] = useMutation(ADD_USER);
 
+  // update state based on form input changes
   const handleChange = (event) => {
     const { name, value } = event.target;
-
     setFormState({
       ...formState,
       [name]: value,
     });
   };
 
+  // submit form
   const handleFormSubmit = async (event) => {
     event.preventDefault();
-
     try {
       const { data } = await addUser({
         variables: { ...formState },
       });
-
       Auth.login(data.addUser.token);
     } catch (e) {
       console.error(e);
     }
   };
 
-  const renderForm = () => {
-    if (data) {
-      return (
-      <p>
-        Success! You may now head{' '}
-        <Link to="/">back to the homepage.</Link>
-      </p>
-      )
-    } 
-    return (
-      <form onSubmit={handleFormSubmit}>
-        <input
-          placeholder="Your username"
-          name="username"
-          type="text"
-          value={formState.name}
-          onChange={handleChange}
-        />
-        <input
-          placeholder="Your email"
-          name="email"
-          type="email"
-          value={formState.email}
-          onChange={handleChange}
-        />
-        <input
-          placeholder="******"
-          name="password"
-          type="password"
-          value={formState.password}
-          onChange={handleChange}
-        />
-        <button type="submit">
-          Submit
-        </button>
-      </form>
-    );
-  };
-
   return (
-    <main>
-      <h4>Sign Up</h4>
-      <div>
-        {renderForm()}
-        {error && <div>{error.message}</div>}
-      </div>
-    </main>
-  );
-};
-
-export default Signup;
+    <Flex
+      marginTop='20vh'
+      flexDirection='column'
+      justifyContent='center'
+      alignItems='center'
+    >
+      <Stack
+        flexDir='column'
+        mb='2'
+        justifyContent='center'
+        alignItems='center'
+      >
+        <Avatar />
+        <Heading>Welcome</Heading>
+        <Box minW={{ base: '90%', md: '468px' }}>
+          {!data ?
+            <form
+              onSubmit={handleFormSubmit}>
+              <Stack
+                spacing={4}
+                p='1rem'
+                boxShadow='md'
+              >
+                <FormControl>
+                  <InputGroup>
+                    <InputLeftElement pointerEvents='none'>
+                      <CFaUserAlt color='gray.300' />
+                    </InputLeftElement>
+                    <Input
+                      type='text'
+                      placeholder='Your username'
+                      onChange={handleChange}
+                    />
+                  </InputGroup>
+                </FormControl>
+                <FormControl>
+                  <InputGroup>
+                    <InputLeftElement pointerEvents='none'>
+                      <CFAEnvelope color='gray.300' />
+                    </InputLeftElement>
+                    <Input
+                      type='email'
+                      placeholder='Your email'
+                      onChange={handleChange}
+                    />
+                  </InputGroup>
+                </FormControl>
+                <FormControl>
+                  <InputGroup>
+                    <InputLeftElement
+                      pointerEvents='none'
+                      color='gray.300'
+                    >
+                      <CFaLock color='gray.300' />
+                    </InputLeftElement>
+                    <Input
+                      type={showPassword ? 'text' : 'password'}
+                      placeholder='Password'
+                      onChange={handleChange}
+                    />
+                    <InputRightElement width='4.5rem'>
+                      <Button h='1.75rem' size='sm' onClick={handleShowClick}>
+                        {showPassword ? 'Hide' : 'Show'}
+                      </Button>
+                    </InputRightElement>
+                  </InputGroup>
+                </FormControl>
+                <Button
+                  borderRadius={0}
+                  type='submit'
+                  variant='solid'
+                  colorScheme='green'
+                  width='full'
+                >
+                  Sign Up
+                </Button>
+              </Stack>
+            </form> :
+            <Text>
+              Success! You may now head{' '}
+              <RouteLink to="/">back to the homepage.</RouteLink>
+            </Text>
+          }
+        </Box>
+        {error && <Text color='red.500'>Failed to sign up.</Text>}
+      </Stack>
+      <Box>
+        Already have an account?&nbsp;
+        <RouteLink to='/login'>
+          <Link color={useColorModeValue('blue.600', 'blue.100')}>
+            Log In
+          </Link>
+        </RouteLink>
+      </Box>
+    </Flex>
+  )
+}
