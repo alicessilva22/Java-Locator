@@ -31,7 +31,7 @@ export const QUERY_ME = gql`
 `;
 
 export const YELP_SEARCH = gql`
-  query search($term: String, $location: String) {
+  query shops {
   search(term:$term, location:$location) {
     business {
       name
