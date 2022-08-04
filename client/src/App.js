@@ -7,15 +7,8 @@ import {
   HttpLink,
 } from '@apollo/client';
 import { setContext } from '@apollo/client/link/context';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-
-// import Home from './pages/Home';
-// import Signup from './pages/Signup';
-// import Login from './pages/Login';
-// import Profile from './pages/Profile';
-// import Header from './components/Header';
-// import Footer from './components/Footer';
-import SearchedShops from './pages/SearchedShops';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { ChakraProvider } from '@chakra-ui/react'
 
 // Construct our main GraphQL API endpoint
 const httpLink = new HttpLink({ uri: '/graphql' });
@@ -65,13 +58,15 @@ const client = new ApolloClient({
 
 function App() {
   return (
-    <ApolloProvider client={client}>
-      <Router>
-        <div className="flex-column justify-flex-start min-100-vh">
-          {/* <Header /> */}
-          <div className="container">
-            <Routes>
-              <Route path="/" element={<SearchedShops />} />
+    <ChakraProvider>
+      <ApolloProvider client={client}>
+        <Router>
+          <div className="flex-column justify-flex-start min-100-vh">
+            {/* <Header /> */}
+            <div className="container">
+              <Route exact path="/">
+                
+              </Route>
               {/* <Route exact path="/login">
                 <Login />
               </Route>
@@ -84,12 +79,12 @@ function App() {
               <Route exact path="/users/:id">
                 <Profile />
               </Route> */}
-            </Routes>
+            </div>
+            {/* <Footer /> */}
           </div>
-          {/* <Footer /> */}
-        </div>
-      </Router>
-    </ApolloProvider>
+        </Router>
+      </ApolloProvider>
+    </ChakraProvider>
   );
 }
 
