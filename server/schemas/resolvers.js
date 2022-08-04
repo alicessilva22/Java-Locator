@@ -1,6 +1,7 @@
 const { AuthenticationError } = require('apollo-server-express');
 const { User } = require('../models');
 const { signToken } = require('../utils/auth');
+const { axios } = require("axios");
 
 const resolvers = {
   Query: {
@@ -16,7 +17,14 @@ const resolvers = {
       }
       throw new AuthenticationError('You need to be logged in!');
     },
+
+    shops: async (_, args, context, { axios }) => {
+      return axios.find('https://api.yelp.com/v3/businesses/term/location')
+    }
+
   },
+
+
 
   Mutation: {
     addUser: async (_, args) => {
