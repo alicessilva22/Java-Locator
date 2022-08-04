@@ -8,6 +8,7 @@ import {
 } from '@apollo/client';
 import { setContext } from '@apollo/client/link/context';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { ChakraProvider } from '@chakra-ui/react'
 
 // import Home from './pages/Home';
 // import Signup from './pages/Signup';
@@ -64,31 +65,33 @@ const client = new ApolloClient({
 
 function App() {
   return (
-    <ApolloProvider client={client}>
-      <Router>
-        <div className="flex-column justify-flex-start min-100-vh">
-          {/* <Header /> */}
-          <div className="container">
-            <Route exact path="/">
-              <SearchedMovies />
-            </Route>
-            {/* <Route exact path="/login">
-              <Login />
-            </Route>
-            <Route exact path="/signup">
-              <Signup />
-            </Route>
-            <Route exact path="/me">
-              <Profile />
-            </Route>
-            <Route exact path="/users/:id">
-              <Profile />
-            </Route> */}
+    <ChakraProvider>
+      <ApolloProvider client={client}>
+        <Router>
+          <div className="flex-column justify-flex-start min-100-vh">
+            {/* <Header /> */}
+            <div className="container">
+              <Route exact path="/">
+                <SearchedMovies />
+              </Route>
+              {/* <Route exact path="/login">
+                <Login />
+              </Route>
+              <Route exact path="/signup">
+                <Signup />
+              </Route>
+              <Route exact path="/me">
+                <Profile />
+              </Route>
+              <Route exact path="/users/:id">
+                <Profile />
+              </Route> */}
+            </div>
+            {/* <Footer /> */}
           </div>
-          {/* <Footer /> */}
-        </div>
-      </Router>
-    </ApolloProvider>
+        </Router>
+      </ApolloProvider>
+    </ChakraProvider>
   );
 }
 
