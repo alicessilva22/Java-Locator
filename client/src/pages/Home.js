@@ -6,7 +6,10 @@ import { YELP_SEARCH } from "../utils/queries";
 // Components
 
 const Home = () => {
-  const { data } = useQuery(YELP_SEARCH);
+  const { data } = useQuery(YELP_SEARCH, { variables: {
+    term: 'coffee',
+    location: 'cary' 
+  }});
   const shops = data?.search?.business || [];
   console.log({ shops });
   return (

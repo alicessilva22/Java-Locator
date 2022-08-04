@@ -2,7 +2,7 @@ import {
   VStack,
   Heading,
 } from '@chakra-ui/react';
-import Layout from '../components/Layout';
+// import Layout from '../components/Layout';
 import SearchBar from '../components/SearchBar';
 import CoffeeShopCard from '../components/CoffeeShopCard';
 import FavoritesButton from '../components/FavoritesButton';
@@ -13,7 +13,7 @@ export default function Favorites() {
   // TODO: Replace with fakeRestaurantData with user's favorites
   // TODO: Create remove from favorites handler and pass with onClick for FavoritesButton
   return (
-    <Layout>
+    // <Layout>
       <VStack spacing={6} marginTop={8}>
         <SearchBar />
         <Heading>Favorites</Heading>
@@ -25,6 +25,6 @@ export default function Favorites() {
           />
         )}
       </VStack>
-    </Layout>
+    // </Layout>
   )
 }

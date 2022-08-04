@@ -9,8 +9,8 @@ import {
 import { setContext } from '@apollo/client/link/context';
 import {
   BrowserRouter as Router,
-  Switch,
   Route,
+  Routes,
 } from "react-router-dom";
 import { ChakraProvider, Flex } from '@chakra-ui/react';
 import Navbar from './components/Navbar';
@@ -53,7 +53,7 @@ function App() {
             height='100vh'
           >
             <Navbar />
-            <Switch>
+            <Routes>
               <Route exact path='/'>
                 <Home />
               </Route>
@@ -72,7 +72,7 @@ function App() {
               <Route exact path='/signup'>
                 <Signup />
               </Route>
-            </Switch>
+            </Routes>
           </Flex>
         </Router>
       </ChakraProvider>
