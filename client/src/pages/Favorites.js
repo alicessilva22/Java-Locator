@@ -10,6 +10,8 @@ import FavoritesButton from '../components/FavoritesButton';
 import fakeRestaurantData from '../assets/fakeRestaurantData';
 
 export default function Favorites() {
+  // TODO: Replace with fakeRestaurantData with user's favorites
+  // TODO: Create remove from favorites handler and pass with onClick for FavoritesButton
   return (
     <Layout>
       <VStack spacing={6} marginTop={8}>
@@ -19,7 +21,7 @@ export default function Favorites() {
           <CoffeeShopCard 
           key={coffeeShop.alias} 
           coffeeShopData={coffeeShop} 
-          cardButton={<FavoritesButton type='remove' />}
+          cardButton={<FavoritesButton type='remove' onClick={''} />}
           />
         )}
       </VStack>

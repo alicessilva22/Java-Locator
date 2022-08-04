@@ -7,7 +7,12 @@ import {
   HttpLink,
 } from '@apollo/client';
 import { setContext } from '@apollo/client/link/context';
+<<<<<<< HEAD
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+=======
+import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { ChakraProvider } from '@chakra-ui/react'
+>>>>>>> ddf2bab (Refactor)
 
 // import Home from './pages/Home';
 // import Signup from './pages/Signup';
@@ -65,13 +70,15 @@ const client = new ApolloClient({
 
 function App() {
   return (
-    <ApolloProvider client={client}>
-      <Router>
-        <div className="flex-column justify-flex-start min-100-vh">
-          {/* <Header /> */}
-          <div className="container">
-            <Routes>
-              <Route path="/" element={<SearchedShops />} />
+    <ChakraProvider>
+      <ApolloProvider client={client}>
+        <Router>
+          <div className="flex-column justify-flex-start min-100-vh">
+            {/* <Header /> */}
+            <div className="container">
+              <Route exact path="/">
+                <SearchedMovies />
+              </Route>
               {/* <Route exact path="/login">
                 <Login />
               </Route>
@@ -84,12 +91,12 @@ function App() {
               <Route exact path="/users/:id">
                 <Profile />
               </Route> */}
-            </Routes>
+            </div>
+            {/* <Footer /> */}
           </div>
-          {/* <Footer /> */}
-        </div>
-      </Router>
-    </ApolloProvider>
+        </Router>
+      </ApolloProvider>
+    </ChakraProvider>
   );
 }
 
