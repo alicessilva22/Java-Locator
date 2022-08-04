@@ -20,6 +20,7 @@ import {
   MoonIcon,
   SunIcon,
 } from '@chakra-ui/icons';
+import { Link as RouteLink } from "react-router-dom";
 import LogoSVG from '../assets/logoSVG.js';
 import Auth from '../utils/auth';
 
@@ -72,7 +73,6 @@ export default function Navbar() {
           </Flex>
         </Flex>
 
-        {/* TODO: Add sign in/signup routes to button hrefs */}
         <Stack
           flex={{ base: 1, md: 0 }}
           justify={'flex-end'}
@@ -80,25 +80,27 @@ export default function Navbar() {
           spacing={6}>
           {Auth.loggedIn ?
             <>
-              <Button
-                display={{ base: 'none', md: 'inline-flex' }}
-                as={'a'}
-                fontSize={'sm'}
-                fontWeight={400}
-                variant={'link'}
-                href={'#'}>
-                Sign In
-              </Button>
-              <Button
-                display={{ base: 'none', md: 'inline-flex' }}
-                fontSize={'sm'}
-                fontWeight={600}
-                color={'white'}
-                bg={'green.400'}
-                href={'#'}
-                _hover={{ bg: 'green.300', }}>
-                Sign Up
-              </Button>
+              <RouteLink to='/login'>
+                <Button
+                  display={{ base: 'none', md: 'inline-flex' }}
+                  as={'a'}
+                  fontSize={'sm'}
+                  fontWeight={400}
+                  variant={'link'}>
+                  Sign In
+                </Button>
+              </RouteLink>
+              <RouteLink to='/signup'>
+                <Button
+                  display={{ base: 'none', md: 'inline-flex' }}
+                  fontSize={'sm'}
+                  fontWeight={600}
+                  color={'white'}
+                  bg={'green.400'}
+                  _hover={{ bg: 'green.300', }}>
+                  Sign Up
+                </Button>
+              </RouteLink>
             </> :
             <Button
               display={{ base: 'none', md: 'inline-flex' }}
@@ -106,7 +108,6 @@ export default function Navbar() {
               fontSize={'sm'}
               fontWeight={400}
               variant={'link'}
-              href={'#'}
               onClick={logout}>
               Sign Out
             </Button>}
@@ -126,25 +127,26 @@ export default function Navbar() {
 const DesktopNav = () => {
   const linkColor = useColorModeValue('gray.600', 'gray.200');
   const linkHoverColor = useColorModeValue('gray.800', 'white');
-  
+
   return (
     <Stack direction={'row'} spacing={4}>
       {NAV_ITEMS.map((navItem) => (
         <Box key={navItem.label}>
           <Popover trigger={'hover'} placement={'bottom-start'}>
             <PopoverTrigger>
-              <Link
-                p={2}
-                href={navItem.href ?? '#'}
-                fontSize={'sm'}
-                fontWeight={500}
-                color={linkColor}
-                _hover={{
-                  textDecoration: 'none',
-                  color: linkHoverColor,
-                }}>
-                {navItem.label}
-              </Link>
+              <RouteLink to={`/${navItem.label.toLowerCase()}`}>
+                <Link
+                  p={2}
+                  fontSize={'sm'}
+                  fontWeight={500}
+                  color={linkColor}
+                  _hover={{
+                    textDecoration: 'none',
+                    color: linkHoverColor,
+                  }}>
+                  {navItem.label}
+                </Link>
+              </RouteLink>
             </PopoverTrigger>
           </Popover>
         </Box>
@@ -188,47 +190,43 @@ const MobileNav = () => {
   );
 };
 
-const MobileNavItem = ({ label, children, href }) => {
+const MobileNavItem = ({ label }) => {
   return (
     <Stack spacing={4}>
       <Flex
         py={2}
         as={Link}
-        href={href ?? '#'}
         justify={'space-between'}
         align={'center'}
         _hover={{
           textDecoration: 'none',
         }}>
-        <Text
-          fontWeight={600}
-          color={useColorModeValue('gray.600', 'gray.200')}>
-          {label}
-        </Text>
+        <RouteLink to={`/${label.toLowerCase()}`}>
+          <Text
+            fontWeight={600}
+            color={useColorModeValue('gray.600', 'gray.200')}>
+            {label}
+          </Text>
+        </RouteLink>
       </Flex>
     </Stack>
   );
 };
 
-// TODO: Update hrefs with routes
 const NAV_ITEMS = [
   {
     label: 'Home',
-    href: '/',
   },
   {
     label: 'Favorites',
-    href: '#'
   },
 ];
 
 const MOBILE_NAV_ITEMS = [
   {
     label: 'Sign In',
-    href: '#',
   },
   {
     label: 'Sign Up',
-    href: '#',
   },
 ]
