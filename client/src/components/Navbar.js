@@ -9,7 +9,6 @@ import {
   Link,
   Popover,
   PopoverTrigger,
-  PopoverContent,
   useColorModeValue,
   useBreakpointValue,
   useDisclosure,
@@ -21,17 +20,18 @@ import {
   MoonIcon,
   SunIcon,
 } from '@chakra-ui/icons';
+import { Link as RouteLink } from "react-router-dom";
 import LogoSVG from '../assets/logoSVG.js';
 import Auth from '../utils/auth';
+
+const logout = (event) => {
+  event.preventDefault();
+  Auth.logout();
+};
 
 export default function Navbar() {
   const { colorMode, toggleColorMode } = useColorMode();
   const { isOpen, onToggle } = useDisclosure();
-
-  const logout = (event) => {
-    event.preventDefault();
-    Auth.logout();
-  };
 
   return (
     <Box>
@@ -73,7 +73,6 @@ export default function Navbar() {
           </Flex>
         </Flex>
 
-        {/* TODO: Add sign in/signup routes to button hrefs */}
         <Stack
           flex={{ base: 1, md: 0 }}
           justify={'flex-end'}
@@ -81,36 +80,37 @@ export default function Navbar() {
           spacing={6}>
           {Auth.loggedIn ?
             <>
-              <Button
-                display={{ base: 'none', md: 'inline-flex' }}
-                as={'a'}
-                fontSize={'sm'}
-                fontWeight={400}
-                variant={'link'}
-                href={'#'}>
-                Sign In
-              </Button>
-              <Button
-                display={{ base: 'none', md: 'inline-flex' }}
-                fontSize={'sm'}
-                fontWeight={600}
-                color={'white'}
-                bg={'green.400'}
-                href={'#'}
-                _hover={{ bg: 'green.300', }}>
-                Sign Up
-              </Button>
+              <RouteLink to='/login'>
+                <Button
+                  display={{ base: 'none', md: 'inline-flex' }}
+                  as={'a'}
+                  fontSize={'sm'}
+                  fontWeight={400}
+                  variant={'link'}>
+                  Sign In
+                </Button>
+              </RouteLink>
+              <RouteLink to='/signup'>
+                <Button
+                  display={{ base: 'none', md: 'inline-flex' }}
+                  fontSize={'sm'}
+                  fontWeight={600}
+                  color={'white'}
+                  bg={'green.400'}
+                  _hover={{ bg: 'green.300', }}>
+                  Sign Up
+                </Button>
+              </RouteLink>
             </> :
             <Button
-            display={{ base: 'none', md: 'inline-flex' }}
-            as={'a'}
-            fontSize={'sm'}
-            fontWeight={400}
-            variant={'link'}
-            href={'#'}
-            onClick={logout}>
-            Sign Out
-          </Button>}
+              display={{ base: 'none', md: 'inline-flex' }}
+              as={'a'}
+              fontSize={'sm'}
+              fontWeight={400}
+              variant={'link'}
+              onClick={logout}>
+              Sign Out
+            </Button>}
           <Button onClick={toggleColorMode}>
             {colorMode === 'light' ? <MoonIcon /> : <SunIcon />}
           </Button>
@@ -127,7 +127,6 @@ export default function Navbar() {
 const DesktopNav = () => {
   const linkColor = useColorModeValue('gray.600', 'gray.200');
   const linkHoverColor = useColorModeValue('gray.800', 'white');
-  const popoverContentBgColor = useColorModeValue('white', 'gray.800');
 
   return (
     <Stack direction={'row'} spacing={4}>
@@ -135,63 +134,24 @@ const DesktopNav = () => {
         <Box key={navItem.label}>
           <Popover trigger={'hover'} placement={'bottom-start'}>
             <PopoverTrigger>
-              <Link
-                p={2}
-                href={navItem.href ?? '#'}
-                fontSize={'sm'}
-                fontWeight={500}
-                color={linkColor}
-                _hover={{
-                  textDecoration: 'none',
-                  color: linkHoverColor,
-                }}>
-                {navItem.label}
-              </Link>
+              <RouteLink to={`/${navItem.label.toLowerCase()}`}>
+                <Link
+                  p={2}
+                  fontSize={'sm'}
+                  fontWeight={500}
+                  color={linkColor}
+                  _hover={{
+                    textDecoration: 'none',
+                    color: linkHoverColor,
+                  }}>
+                  {navItem.label}
+                </Link>
+              </RouteLink>
             </PopoverTrigger>
-
-            {navItem.children && (
-              <PopoverContent
-                border={0}
-                boxShadow={'xl'}
-                bg={popoverContentBgColor}
-                p={4}
-                rounded={'xl'}
-                minW={'sm'}>
-                <Stack>
-                  {navItem.children.map((child) => (
-                    <DesktopSubNav key={child.label} {...child} />
-                  ))}
-                </Stack>
-              </PopoverContent>
-            )}
           </Popover>
         </Box>
       ))}
     </Stack>
-  );
-};
-
-const DesktopSubNav = ({ label, href, subLabel }) => {
-  return (
-    <Link
-      href={href}
-      role={'group'}
-      display={'block'}
-      p={2}
-      rounded={'md'}
-      _hover={{ bg: useColorModeValue('green.50', 'gray.900') }}>
-      <Stack direction={'row'} align={'center'}>
-        <Box>
-          <Text
-            transition={'all .3s ease'}
-            _groupHover={{ color: 'green.400' }}
-            fontWeight={500}>
-            {label}
-          </Text>
-          <Text fontSize={'sm'}>{subLabel}</Text>
-        </Box>
-      </Stack>
-    </Link>
   );
 };
 
@@ -200,60 +160,73 @@ const MobileNav = () => {
     <Stack
       bg={useColorModeValue('white', 'gray.800')}
       p={4}
+      color={useColorModeValue('gray.600', 'gray.200')}
       display={{ md: 'none' }}>
       {NAV_ITEMS.map((navItem) => (
         <MobileNavItem key={navItem.label} {...navItem} />
       ))}
-      {MOBILE_NAV_ITEMS.map((navItem) => (
-        <MobileNavItem key={navItem.label} {...navItem} />
-      ))}
+      {Auth.loggedIn ?
+        MOBILE_NAV_ITEMS.map((navItem) => (
+          <MobileNavItem key={navItem.label} {...navItem} />
+        )) :
+        <Stack spacing={4}>
+          <Flex
+            py={2}
+            as={Button}
+            justify={'space-between'}
+            align={'center'}
+            onClick={logout}
+            _hover={{
+              textDecoration: 'none',
+            }}>
+            <Text
+              fontWeight={600}>
+              Sign&nbsp;Out
+            </Text>
+          </Flex>
+        </Stack>
+      }
     </Stack>
   );
 };
 
-const MobileNavItem = ({ label, children, href }) => {
-  const { onToggle } = useDisclosure();
-
+const MobileNavItem = ({ label }) => {
   return (
-    <Stack spacing={4} onClick={children && onToggle}>
+    <Stack spacing={4}>
       <Flex
         py={2}
         as={Link}
-        href={href ?? '#'}
         justify={'space-between'}
         align={'center'}
         _hover={{
           textDecoration: 'none',
         }}>
-        <Text
-          fontWeight={600}
-          color={useColorModeValue('gray.600', 'gray.200')}>
-          {label}
-        </Text>
+        <RouteLink to={`/${label.toLowerCase()}`}>
+          <Text
+            fontWeight={600}
+            color={useColorModeValue('gray.600', 'gray.200')}>
+            {label}
+          </Text>
+        </RouteLink>
       </Flex>
     </Stack>
   );
 };
 
-// TODO: Update hrefs with routes
 const NAV_ITEMS = [
   {
     label: 'Home',
-    href: '/',
   },
   {
     label: 'Favorites',
-    href: '#'
   },
 ];
 
 const MOBILE_NAV_ITEMS = [
   {
     label: 'Sign In',
-    href: '#',
   },
   {
     label: 'Sign Up',
-    href: '#',
   },
 ]
