@@ -7,8 +7,6 @@ import {
   Stack,
   Collapse,
   Link,
-  Popover,
-  PopoverTrigger,
   useColorModeValue,
   useBreakpointValue,
   useDisclosure,
@@ -132,23 +130,19 @@ const DesktopNav = () => {
     <Stack direction={'row'} spacing={4}>
       {NAV_ITEMS.map((navItem) => (
         <Box key={navItem.label}>
-          <Popover trigger={'hover'} placement={'bottom-start'}>
-            <PopoverTrigger>
-              <RouteLink to={`/${navItem.label.toLowerCase()}`}>
-                <Link
-                  p={2}
-                  fontSize={'sm'}
-                  fontWeight={500}
-                  color={linkColor}
-                  _hover={{
-                    textDecoration: 'none',
-                    color: linkHoverColor,
-                  }}>
-                  {navItem.label}
-                </Link>
-              </RouteLink>
-            </PopoverTrigger>
-          </Popover>
+          <RouteLink to={navItem.route}>
+            <Link
+              p={2}
+              fontSize={'sm'}
+              fontWeight={500}
+              color={linkColor}
+              _hover={{
+                textDecoration: 'none',
+                color: linkHoverColor,
+              }}>
+              {navItem.label}
+            </Link>
+          </RouteLink>
         </Box>
       ))}
     </Stack>
@@ -190,7 +184,7 @@ const MobileNav = () => {
   );
 };
 
-const MobileNavItem = ({ label }) => {
+const MobileNavItem = ({ label, route }) => {
   return (
     <Stack spacing={4}>
       <Flex
@@ -201,7 +195,7 @@ const MobileNavItem = ({ label }) => {
         _hover={{
           textDecoration: 'none',
         }}>
-        <RouteLink to={`/${label.toLowerCase()}`}>
+        <RouteLink to={route}>
           <Text
             fontWeight={600}
             color={useColorModeValue('gray.600', 'gray.200')}>
@@ -216,17 +210,21 @@ const MobileNavItem = ({ label }) => {
 const NAV_ITEMS = [
   {
     label: 'Home',
+    route: '/'
   },
   {
     label: 'Favorites',
+    route: 'favorites'
   },
 ];
 
 const MOBILE_NAV_ITEMS = [
   {
     label: 'Sign In',
+    route: '/login'
   },
   {
     label: 'Sign Up',
+    route: 'signup'
   },
 ]

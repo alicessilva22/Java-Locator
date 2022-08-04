@@ -1,6 +1,5 @@
 import React from 'react';
 import {
-  ApolloLink,
   ApolloClient,
   InMemoryCache,
   ApolloProvider,
@@ -54,24 +53,12 @@ function App() {
           >
             <Navbar />
             <Routes>
-              <Route exact path='/'>
-                <Home />
-              </Route>
-              <Route exact path='/profile'>
-                <Profile />
-              </Route>
-              <Route exact path='/favorites'>
-                <Favorites />
-              </Route>
-              <Route exact path='/search'>
-                <Search />
-              </Route>
-              <Route exact path='/login'>
-                <Login />
-              </Route>
-              <Route exact path='/signup'>
-                <Signup />
-              </Route>
+              <Route path='/' element={<Home />} />
+              <Route path='/profile' element={<Profile />} />
+              <Route path='/favorites' element={<Favorites />} />
+              <Route path='/search' element={<Search />} />
+              <Route path='/login' element={<Login />} />
+              <Route path='/signup' element={<Signup />} />
             </Routes>
           </Flex>
         </Router>

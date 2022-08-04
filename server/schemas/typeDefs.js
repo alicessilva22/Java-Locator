@@ -5,6 +5,10 @@ const typeDefs = gql`
     address1: String
   }
 
+  type Data {
+    businesses: [Business]
+  }
+
   type Business {
     location: [Address]
     name: String
@@ -15,6 +19,7 @@ const typeDefs = gql`
   type Search {
     business: [Business]
   }
+
   type User {
     _id: ID
     username: String
@@ -31,7 +36,7 @@ const typeDefs = gql`
     users: [User]
     user(id: ID!): User
     me: User
-    shops: [Business]
+    shops: Data
   }
 
   type Mutation {
