@@ -12,7 +12,7 @@ export default function CoffeeShopCard({ coffeeShopData, cardButton }) {
   const toggleTextColor = useColorModeValue('gray.600', 'gray.400');
 
   const { rating, review_count, name, location, url, image_url } = coffeeShopData;
-  const { city, address1 } = location;
+  const [address, city] = location.join(' ');
 
   return (
     <HStack
@@ -38,7 +38,7 @@ export default function CoffeeShopCard({ coffeeShopData, cardButton }) {
         </Link>
 
         <Box fontSize={{base: 'sm', md: 'md'}}>
-          {address1},&nbsp;
+          {address},&nbsp;
           <Box as='span' color={toggleTextColor}>
             {city}
           </Box>
