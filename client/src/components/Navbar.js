@@ -81,10 +81,10 @@ export default function Navbar() {
               <RouteLink to='/login'>
                 <Button
                   display={{ base: 'none', md: 'inline-flex' }}
-                  as={'a'}
+                  as={Link}
+                  bg='none'
                   fontSize={'sm'}
-                  fontWeight={400}
-                  variant={'link'}>
+                  fontWeight={400}>
                   Sign In
                 </Button>
               </RouteLink>
@@ -102,10 +102,9 @@ export default function Navbar() {
             </> :
             <Button
               display={{ base: 'none', md: 'inline-flex' }}
-              as={'a'}
+              bg='none'
               fontSize={'sm'}
               fontWeight={400}
-              variant={'link'}
               onClick={logout}>
               Sign Out
             </Button>}
@@ -152,8 +151,9 @@ const DesktopNav = () => {
 const MobileNav = () => {
   return (
     <Stack
-      bg={useColorModeValue('white', 'gray.800')}
-      p={4}
+      bg={useColorModeValue('gray.50', 'gray.700')}
+      px={5}
+      py={3}
       color={useColorModeValue('gray.600', 'gray.200')}
       display={{ md: 'none' }}>
       {NAV_ITEMS.map((navItem) => (
@@ -165,7 +165,7 @@ const MobileNav = () => {
         )) :
         <Stack spacing={4}>
           <Flex
-            py={2}
+            py={1}
             as={Button}
             justify={'space-between'}
             align={'center'}
@@ -186,9 +186,9 @@ const MobileNav = () => {
 
 const MobileNavItem = ({ label, route }) => {
   return (
-    <Stack spacing={4}>
+    <Stack spacing={3}>
       <Flex
-        py={2}
+        py={1}
         as={Link}
         justify={'space-between'}
         align={'center'}
