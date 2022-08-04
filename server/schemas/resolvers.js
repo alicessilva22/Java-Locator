@@ -16,13 +16,6 @@ const resolvers = {
       }
       throw new AuthenticationError('You need to be logged in!');
     },
-    businesses: async (_, args, context) => {
-      if (context.business) {
-        return business.find();
-      }
-      throw new AuthenticationError('You need to be logged in!');
-    },
-    
   },
 
   Mutation: {

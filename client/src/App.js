@@ -1,76 +1,92 @@
-import React from "react";
+import React from 'react';
 import {
+  ApolloLink,
   ApolloClient,
   InMemoryCache,
   ApolloProvider,
-  createHttpLink,
-} from "@apollo/client";
-import { setContext } from "@apollo/client/link/context";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { ApolloLink } from "apollo-link";
+  HttpLink,
+} from '@apollo/client';
+import { setContext } from '@apollo/client/link/context';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
 
+// import Home from './pages/Home';
+// import Signup from './pages/Signup';
+// import Login from './pages/Login';
+// import Profile from './pages/Profile';
+// import Header from './components/Header';
+// import Footer from './components/Footer';
 import SearchedMovies from "./pages/SearchedMovies";
 
 // Construct our main GraphQL API endpoint
-const httpLink = createHttpLink({
-  uri: "/graphql",
-});
+const httpLink = new HttpLink({ uri: '/graphql' });
+
+// Construct request middleware that will attach the JWT token to every request as an `authorization` header
 const authLink = setContext((_, { headers }) => {
-  const token = localStorage.getItem("id_token");
+  // get the authentication token from local storage if it exists
+  const token = localStorage.getItem('id_token');
+  // return the headers to the context so httpLink can read them
   return {
     headers: {
       ...headers,
-      authorization: token ? `Bearer ${token}` : "",
+      authorization: token ? `Bearer ${token}` : '',
     },
   };
 });
-const yelpLink = new createHttpLink({
-  uri: "https://api.yelp.com/v3/graphql",
+
+const expressLink = authLink.concat(httpLink);
+
+const coffeeLink = new HttpLink({ 
+  uri: 'https://api.yelp.com/v3/graphql' 
 });
+
 const yelpAuthLink = setContext((_, { headers }) => {
   return {
     headers: {
       ...headers,
       authorization: `Bearer ${process.env.REACT_APP_YELP_API_KEY}`,
-      "Content-Type": "application/graphql",
     },
   };
 });
-const YelpAuthorization = new ApolloClient({
-  link: ApolloLink.split(
-    (operation) => operation.getContext().clientName === "third-party",
-    yelpAuthLink, // <= apollo will send to this if clientName is "third-party"
-    yelpLink // <= otherwise will send to this
-  ),
-});
 
-const expressLink = authLink.concat(httpLink);
-const yelpConcatLink = yelpAuthLink.concat(yelpLink);
+const yelpLink = yelpAuthLink.concat(coffeeLink);
+
+
+const directionalLink = ApolloLink.split(
+  (operation) => operation.getContext().clientName === 'third-party',
+  yelpLink,
+  expressLink,
+);
 
 const client = new ApolloClient({
-  link: ApolloLink.split(
-    (operation) => operation.getContext().clientName === "yelp-gql",
-    yelpConcatLink,
-    expressLink
-  ),
   cache: new InMemoryCache(),
+  link: directionalLink,
 });
 
 function App() {
   return (
-    <ApolloProvider client={client} YelpAuthorization={YelpAuthorization}>
+    <ApolloProvider client={client}>
       <Router>
-        <>
+        <div className="flex-column justify-flex-start min-100-vh">
           {/* <Header /> */}
-          <Routes>
-            <Route path="/" element={<SearchedMovies />} />
-            {/* <Route path="/login" element={<Login />} />
-            <Route path="/signup" element={<Signup />} />
-            <Route path="/me" element={<Profile />} />
-            <Route path="/users/:id" element={<Profile />} /> */}
-          </Routes>
+          <div className="container">
+            <Route exact path="/">
+              <SearchedMovies />
+            </Route>
+            {/* <Route exact path="/login">
+              <Login />
+            </Route>
+            <Route exact path="/signup">
+              <Signup />
+            </Route>
+            <Route exact path="/me">
+              <Profile />
+            </Route>
+            <Route exact path="/users/:id">
+              <Profile />
+            </Route> */}
+          </div>
           {/* <Footer /> */}
-        </>
+        </div>
       </Router>
     </ApolloProvider>
   );
