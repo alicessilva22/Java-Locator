@@ -37,33 +37,9 @@ const authLink = setContext((_, { headers }) => {
   };
 });
 
-const expressLink = authLink.concat(httpLink);
-
-const coffeeLink = new HttpLink({
-  uri: 'https://api.yelp.com/v3/graphql'
-});
-
-const yelpAuthLink = setContext((_, { headers }) => {
-  return {
-    headers: {
-      ...headers,
-      authorization: `Bearer ${process.env.REACT_APP_YELP_API_KEY}`,
-      contentType: 'application/graphQL'
-    },
-  };
-});
-
-const yelpLink = yelpAuthLink.concat(coffeeLink);
-
-const directionalLink = ApolloLink.split(
-  (operation) => operation.getContext().clientName === 'third-party',
-  yelpLink,
-  expressLink,
-);
-
 const client = new ApolloClient({
   cache: new InMemoryCache(),
-  link: directionalLink,
+  link: authLink.concat(httpLink),
 });
 
 function App() {
