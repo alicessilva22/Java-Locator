@@ -7,12 +7,26 @@ import {
   useColorModeValue,
 } from '@chakra-ui/react';
 import { StarIcon } from '@chakra-ui/icons';
+import FavoritesButton from './FavoritesButton';
+import { useMutation } from '@apollo/client';
+import { FAVORITE } from '../utils/mutations';
 
-export default function CoffeeShopCard({ coffeeShopData, cardButton }) {
+export default function CoffeeShopCard({ coffeeShopData }) {
   const toggleTextColor = useColorModeValue('gray.600', 'gray.400');
+  const [favorite, { error }] = useMutation(FAVORITE);
 
-  const { rating, review_count, name, location, url, image_url } = coffeeShopData;
-  const [address, city] = location;
+  const { id, rating, review_count, name, location, url, image_url } = coffeeShopData;
+  const address = location.display_address;
+
+  const handleFavorite = async (id) => {
+    if (!error) {
+      try {
+        await favorite(id);
+      } catch (err) {
+        console.log(err);
+      }
+    }
+  }
 
   return (
     <HStack
@@ -22,7 +36,9 @@ export default function CoffeeShopCard({ coffeeShopData, cardButton }) {
       borderRadius='lg'
       overflow='hidden'
       paddingRight='12px'
+      marginBottom='12px'
     >
+      
       <Image
         src={image_url}
         alt={name}
@@ -39,10 +55,7 @@ export default function CoffeeShopCard({ coffeeShopData, cardButton }) {
         </Link>
 
         <Box fontSize={{base: 'sm', md: 'md'}}>
-          {address},&nbsp;
-          <Box as='span' color={toggleTextColor}>
-            {city}
-          </Box>
+          {address}
         </Box>
 
         <Box display='flex' mt='2' alignItems='center'>
@@ -59,8 +72,7 @@ export default function CoffeeShopCard({ coffeeShopData, cardButton }) {
           </Box>
         </Box>
       </Box>
-
-      {cardButton}
+      <FavoritesButton type="add" onClick={() => handleFavorite(id)}/>
     </HStack>
   );
 }

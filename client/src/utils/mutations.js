@@ -55,47 +55,33 @@ export const ADD_COMMENT = gql`
   }
 `;
 
-export const SAVE_SHOP = gql`
-  mutation saveShop($input: savedShop!) {
-    saveShop(input: $input) {
+export const FAVORITE = gql`
+  mutation favorite(
+    $id: ID,
+    $name: String,
+    $rating: Float,
+    $review_count: Int,
+    $url: String,
+    $image_url: String
+  ) {
+    favorite(
+      id: $id,
+      name: $name,
+      rating: $rating,
+      review_count: $review_count,
+      url: $url,
+      image_url: $image_url
+    ) {
       _id
-      thoughtText
-      thoughtAuthor
-      createdAt
-      comments {
-        savedShops {
-          name
-          rating
-          review_count
-          location {
-            display_address
-          }
-          url
-          image_url
-        }
-      }
-    }
-  }
-`;
-
-export const REMOVE_SHOP = gql`
-  mutation removeShop($shopId: String!) {
-    removeShop(shopId: $shopId) {
-      _id
-      thoughtText
-      thoughtAuthor
-      createdAt
-      comments {
-        savedShops {
-          name
-          rating
-          review_count
-          location {
-            display_address
-          }
-          url
-          image_url
-        }
+      username
+      email
+      favorites {
+        id
+        name
+        rating
+        review_count
+        url
+        image_url
       }
     }
   }

@@ -26,6 +26,14 @@ export const QUERY_ME = gql`
       _id
       username
       email
+      favorites {
+        id
+        name
+        rating
+        review_count
+        url
+        image_url
+      }
     }
   }
 `;
@@ -33,6 +41,7 @@ export const QUERY_ME = gql`
 export const YELP_SEARCH = gql`
   query shops($location:String!, $term:String!) {
       shops(location:$location, term:$term) {
+        id
         name
         rating
         review_count

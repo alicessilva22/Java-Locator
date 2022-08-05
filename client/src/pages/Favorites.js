@@ -1,25 +1,30 @@
-import {
-  VStack,
-  Heading,
-} from '@chakra-ui/react';
-import CoffeeShopCard from '../components/CoffeeShopCard';
-import FavoritesButton from '../components/FavoritesButton';
+import React from "react";
+import { useQuery } from "@apollo/client";
+import { QUERY_ME } from "../utils/queries";
+import { Container } from '@chakra-ui/react';
+import CoffeeShopCard from "../components/CoffeeShopCard";
 
-import fakeRestaurantData from '../assets/fakeRestaurantData';
 
-export default function Favorites() {
-  // TODO: Replace with fakeRestaurantData with user's favorites
-  // TODO: Create remove from favorites handler and pass with onClick for FavoritesButton
+const Favorites = () => {
+  const { data, loading } = useQuery(QUERY_ME);
+  const me = data?.me || {};
+ 
+  if (loading) return <h1>Loading...</h1>;
+
+  console.log(me);
+  
   return (
-      <VStack spacing={6} marginTop={8}>
-        <Heading>Favorites</Heading>
-        {fakeRestaurantData.businesses.map(coffeeShop =>
-          <CoffeeShopCard 
-          key={coffeeShop.alias} 
-          coffeeShopData={coffeeShop} 
-          cardButton={<FavoritesButton type='remove' onClick={''} />}
-          />
-        )}
-      </VStack>
-  )
-}
+    <Container>
+      <div>
+        <section>
+          {me.favorites && me.favorites.map(shop => (
+            <CoffeeShopCard key={shop.id} coffeeShopData={shop}>
+            </CoffeeShopCard>)
+          )}
+        </section>
+      </div>
+    </Container>
+  );
+};
+
+export default Favorites;

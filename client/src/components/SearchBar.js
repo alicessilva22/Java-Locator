@@ -11,7 +11,7 @@ export default function SearchBar({ handleSearch }) {
   return (
     <InputGroup
     width={{ base: "75%", md: "50%" }}
-    margin="auto"
+    margin="1rem auto"
     >
       <Input ref={inputRef} placeholder="Enter a city or zip code" /> 
       <InputRightElement width="min-content">
@@ -22,7 +22,10 @@ export default function SearchBar({ handleSearch }) {
           bg={"green.400"}
           href={"#"}
           _hover={{ bg: "green.300", }}
-          onClick={() => handleSearch(inputRef.current.value)}>
+          onClick={(e) => {
+            e.preventDefault();
+            handleSearch(inputRef.current.value)
+          }}>
           Search
         </Button>
       </InputRightElement>

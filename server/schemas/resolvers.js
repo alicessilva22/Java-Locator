@@ -14,7 +14,7 @@ const resolvers = {
     },
     me: async (_, args, context) => {
       if (context.user) {
-        return User.findOne({ _id: context.user._id });
+        return User.findOne({ _id: context.user._id }).populate('favorites');
       }
       throw new AuthenticationError("You need to be logged in!");
     },
@@ -28,6 +28,7 @@ const resolvers = {
           "Authorization": "Bearer " + process.env.YELP_API_KEY
         }
       })
+      console.log(data);
       return data.businesses;
     },
   },
@@ -57,31 +58,27 @@ const resolvers = {
 
       return { token, user };
     },
-  },
-
-  saveShop: async (parent, args, context) => {
-    if (context.user) {
-      const updatedUser = await User.findByIdAndUpdate(
-        { _id: context.user._id },
-        { $addToSet: { savedShops: args.input } },
-        { new: true, runValidators: true }
-      );
-      return updatedUser;
-    }
-    throw new AuthenticationError("You need to be logged in!");
-  },
-  removeShop: async (parent, args, context) => {
-    if (context.user) {
-      const updatedUser = await User.findOneAndUpdate(
-        { _id: context.user._id },
-        { $pull: { savedShops: { shopId: args.shopId } } },
-        { new: true }
-      );
-      return updatedUser;
-    }
-    throw new AuthenticationError('You need to be logged in!');
+    favorite: async (parent, args, context) => {
+      if (context.user) {
+        const user = User.findByIdAndUpdate(
+          context.user._id,
+          { $push: { favorites: args } },
+          { runValidators: true, new: true }
+        ).populate('favorites');
+        return user;
+      }
+    },
+    unfavorite: async (parent, args, context) => {
+      if (context.user) {
+        const user = User.findByIdAndUpdate(
+          context.user._id,
+          { $pull: { favorites: { id: args.id } } },
+          { runValidators: true, new: true }
+        ).populate('favorites');
+        return user;
+      }
+    },
   }
- 
 };
 
 module.exports = resolvers;
