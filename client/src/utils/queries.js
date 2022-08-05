@@ -31,8 +31,8 @@ export const QUERY_ME = gql`
 `;
 
 export const YELP_SEARCH = gql`
-  query shops {
-      shops {
+  query shops($location:String!, $term:String!) {
+      shops(location:$location, term:$term) {
         name
         rating
         review_count
