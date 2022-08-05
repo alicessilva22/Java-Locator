@@ -2,16 +2,12 @@ import React from "react";
 import { useLazyQuery } from "@apollo/client";
 import { YELP_SEARCH } from "../utils/queries";
 import SearchBar from '../components/SearchBar';
-
+import { Container } from '@chakra-ui/react';
+import CoffeeShopCard from "../components/CoffeeShopCard";
 
 
 const Home = () => {
-  const [yelpSearch, { data, loading }] = useLazyQuery(YELP_SEARCH, {
-    variables: {
-      term: 'coffee',
-      location: 'seattle',
-    }
-  });
+  const [yelpSearch, { data, loading }] = useLazyQuery(YELP_SEARCH);
   const shops = data?.shops || [];
   console.log('Home', { shops });
   if (loading) return <h1>Loading...</h1>;
@@ -25,11 +21,17 @@ const Home = () => {
   // Components
   
   return (
-    <main>
+    <Container>
       <div>
         <SearchBar handleSearch={handleSearch}/>
+        <section>
+          {shops.map(shop => (
+            <CoffeeShopCard key={shop.id} coffeeShopData={shop}>
+            </CoffeeShopCard>)
+          )}
+        </section>
       </div>
-    </main>
+    </Container>
   );
 };
 

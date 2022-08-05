@@ -18,7 +18,15 @@ const userSchema = new Schema({
     type: String,
     required: true,
     minlength: 5,
-  }
+  },
+  favorites: [{
+    id: Schema.Types.ObjectId,
+    name: String,
+    rating: Number,
+    review_count: Number,
+    url: String,
+    image_url: String,
+  }]
 });
 
 userSchema.pre('save', async function (next) {

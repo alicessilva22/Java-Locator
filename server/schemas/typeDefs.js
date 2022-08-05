@@ -10,15 +10,7 @@ const typeDefs = gql`
   }
 
   type Business {
-    location: Address
-    name: String
-    rating: Float
-    review_count: Int
-    url: String
-    image_url: String
-  }
-
-  input savedShop {
+    id: ID
     location: Address
     name: String
     rating: Float
@@ -32,6 +24,7 @@ const typeDefs = gql`
     username: String
     email: String
     password: String
+    favorites: [Business]
   }
 
   type Auth {
@@ -49,8 +42,15 @@ const typeDefs = gql`
   type Mutation {
     addUser(username: String!, email: String!, password: String!): Auth
     login(email: String!, password: String!): Auth
-    saveShop(input: savedShop!): User
-    removeShop(ShopId: String!): User
+    favorite(
+      id: ID,
+      name: String,
+      rating: Float,
+      review_count: Int,
+      url: String,
+      image_url: String
+    ): User
+    unfavorite(id: ID): User
   }
 `;
 

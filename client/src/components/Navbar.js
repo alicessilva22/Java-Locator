@@ -207,16 +207,21 @@ const MobileNavItem = ({ label, route }) => {
   );
 };
 
-const NAV_ITEMS = [
+
+
+let NAV_ITEMS = [
   {
     label: 'Home',
     route: '/'
   },
-  {
+];
+
+if (Auth.loggedIn()) {
+  NAV_ITEMS = NAV_ITEMS.concat({
     label: 'Favorites',
     route: 'favorites'
-  },
-];
+  });
+}
 
 const MOBILE_NAV_ITEMS = [
   {
