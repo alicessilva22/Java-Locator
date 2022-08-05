@@ -23,10 +23,10 @@ I WANT to be able to have access to the coffee shops ratings and location
 SO THAT I can find new favorite places wherever I happen to be
 ```
 ## Description
-<!-- Finish when we have full website layout  -->
+We created a coffee site where the user can search coffee shops based on the yelp api query. This sends the user back coffee shops in the area allowing them access to the location, ratings, and website of the shop they are viewing. 
 
 ## Resources
-[LIVE SITE]()
+[LIVE SITE](https://java-locator.herokuapp.com/)
 
 [Github Repo](https://github.com/alicessilva22/Java-Locator)
 
