@@ -1,8 +1,10 @@
 require('dotenv').config('../')
 const { AuthenticationError } = require("apollo-server-express");
-const { User } = require("../models");
+const { User, } = require("../models");
 const { signToken } = require("../utils/auth");
 const axios = require("axios");
+const Favorites = require('../models/favorites');
+
 
 const resolvers = {
   Query: {
@@ -59,10 +61,11 @@ const resolvers = {
       return { token, user };
     },
     favorite: async (parent, args, context) => {
+      const favorite = await Favorites.create(args);
       if (context.user) {
         const user = User.findByIdAndUpdate(
           context.user._id,
-          { $push: { favorites: args } },
+          { $push: { favorites: favorite._id } },
           { runValidators: true, new: true }
         ).populate('favorites');
         return user;
