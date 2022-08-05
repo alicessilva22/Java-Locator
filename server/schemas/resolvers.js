@@ -58,6 +58,30 @@ const resolvers = {
       return { token, user };
     },
   },
+
+  saveShop: async (parent, args, context) => {
+    if (context.user) {
+      const updatedUser = await User.findByIdAndUpdate(
+        { _id: context.user._id },
+        { $addToSet: { savedShops: args.input } },
+        { new: true, runValidators: true }
+      );
+      return updatedUser;
+    }
+    throw new AuthenticationError("You need to be logged in!");
+  },
+  removeShop: async (parent, args, context) => {
+    if (context.user) {
+      const updatedUser = await User.findOneAndUpdate(
+        { _id: context.user._id },
+        { $pull: { savedShops: { shopId: args.shopId } } },
+        { new: true }
+      );
+      return updatedUser;
+    }
+    throw new AuthenticationError('You need to be logged in!');
+  }
+ 
 };
 
 module.exports = resolvers;

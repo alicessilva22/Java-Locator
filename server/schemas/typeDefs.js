@@ -18,8 +18,13 @@ const typeDefs = gql`
     image_url: String
   }
 
-  type Search {
-    business: [Business]
+  input savedShop {
+    location: Address
+    name: String
+    rating: Float
+    review_count: Int
+    url: String
+    image_url: String
   }
 
   type User {
@@ -44,6 +49,8 @@ const typeDefs = gql`
   type Mutation {
     addUser(username: String!, email: String!, password: String!): Auth
     login(email: String!, password: String!): Auth
+    saveShop(input: savedShop!): User
+    removeShop(ShopId: String!): User
   }
 `;
 
