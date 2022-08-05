@@ -32,5 +32,5 @@ SO THAT I can find new favorite places wherever I happen to be
 
 ## Visuals
 
-![Homepage]()
-
+![Homepage](./assets/images/image.png)
+![Homepage light](./assets/images/image_720.png)
