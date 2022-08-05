@@ -50,6 +50,7 @@ export default function Login() {
   const handleFormSubmit = async (event) => {
     event.preventDefault();
     try {
+      console.log(formState);
       const { data } = await addUser({
         variables: { ...formState },
       });
@@ -90,6 +91,7 @@ export default function Login() {
                     </InputLeftElement>
                     <Input
                       type='text'
+                      name="username"
                       placeholder='Your username'
                       onChange={handleChange}
                     />
@@ -102,6 +104,8 @@ export default function Login() {
                     </InputLeftElement>
                     <Input
                       type='email'
+                      name='email'
+      
                       placeholder='Your email'
                       onChange={handleChange}
                     />
@@ -118,6 +122,7 @@ export default function Login() {
                     <Input
                       type={showPassword ? 'text' : 'password'}
                       placeholder='Password'
+                      name='password'
                       onChange={handleChange}
                     />
                     <InputRightElement width='4.5rem'>
