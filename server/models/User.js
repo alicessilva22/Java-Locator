@@ -20,12 +20,7 @@ const userSchema = new Schema({
     minlength: 5,
   },
   favorites: [{
-    id: Schema.Types.ObjectId,
-    name: String,
-    rating: Number,
-    review_count: Number,
-    url: String,
-    image_url: String,
+    type: Schema.Types.ObjectId, ref: "Favorite"
   }]
 });
 
