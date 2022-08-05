@@ -8,10 +8,10 @@ import {
 export default function SearchBar({ onSubmit }) {
   return (
     <InputGroup
-      width={{ base: "75%", md: "50%" }}
-      margin="auto"
+    width={{ base: "75%", md: "50%" }}
+    margin="auto"
     >
-      <Input placeholder="Enter a city or zip code" />
+      <Input placeholder="Enter a city or zip code" /> 
       <InputRightElement width="min-content">
         <Button
           fontSize={"sm"}
@@ -24,6 +24,8 @@ export default function SearchBar({ onSubmit }) {
           Search
         </Button>
       </InputRightElement>
+      {/* {console.log('here')}
+      {console.log(Input.value)} */}
     </InputGroup>
   )
   

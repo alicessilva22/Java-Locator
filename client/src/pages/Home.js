@@ -1,5 +1,5 @@
 // Node Modules
-import React, { useState } from "react";
+import React from "react";
 
 import { useQuery } from "@apollo/client";
 // Utilities
@@ -15,7 +15,7 @@ import SearchBar from '../components/SearchBar';
 
 const Home = () => {
   // const [searchedBooks, setSearchedBooks] = useState([]);
-  const [searchInput] = useState("");
+  // const [searchInput] = useState("");
   // useEffect(() => {
   //   return () => {
   //     saveBookIds(savedBookIds);
@@ -46,22 +46,19 @@ const Home = () => {
   //   }
   // };
 
-// Components
+  // Components
 
 
-  const { data } = useQuery(YELP_SEARCH(searchInput));  
-    const shops = data?.shops[0].name || [];
-    console.log({shops});
+  const { data } = useQuery(YELP_SEARCH);
+  const shops = data?.shops || [];
+  console.log({ shops });
   return (
     <main>
       <div>
         <SearchBar />
-      <p>
-        Hello
-      </p>
       </div>
     </main>
   );
 };
-  
+
 export default Home;

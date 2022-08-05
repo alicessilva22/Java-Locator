@@ -19,17 +19,15 @@ const resolvers = {
       throw new AuthenticationError("You need to be logged in!");
     },
 
-    shops: async (_, args, context, city) => {
-      console.log(process.env.YELP_API_KEY);
+    shops: async (_, args, context) => {
       const {data} = await axios({
         method: 'GET',
         url: 'https://api.yelp.com/v3/businesses/search?',
-        params: { term: 'coffee', location: `${city}` },
+        params: { term: 'coffee', location: 'wichita' },
         headers: {
           "Authorization": "Bearer " + process.env.YELP_API_KEY
         }
       })
-      // console.log(data.businesses[0].location);
       return data.businesses;
     },
   },
