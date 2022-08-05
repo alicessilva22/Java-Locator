@@ -1,3 +1,4 @@
+import { useRef } from 'react';
 import {
   Button,
   Input,
@@ -5,13 +6,14 @@ import {
   InputRightElement
 } from '@chakra-ui/react';
 
-export default function SearchBar({ onSubmit }) {
+export default function SearchBar({ handleSearch }) {
+  const inputRef = useRef();
   return (
     <InputGroup
     width={{ base: "75%", md: "50%" }}
     margin="auto"
     >
-      <Input placeholder="Enter a city or zip code" /> 
+      <Input ref={inputRef} placeholder="Enter a city or zip code" /> 
       <InputRightElement width="min-content">
         <Button
           fontSize={"sm"}
@@ -20,7 +22,7 @@ export default function SearchBar({ onSubmit }) {
           bg={"green.400"}
           href={"#"}
           _hover={{ bg: "green.300", }}
-          onClick={onSubmit}>
+          onClick={() => handleSearch(inputRef.current.value)}>
           Search
         </Button>
       </InputRightElement>
