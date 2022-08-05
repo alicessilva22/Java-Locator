@@ -2,7 +2,6 @@ import {
   VStack,
   Heading,
 } from '@chakra-ui/react';
-import SearchBar from '../components/SearchBar';
 import CoffeeShopCard from '../components/CoffeeShopCard';
 import FavoritesButton from '../components/FavoritesButton';
 
@@ -13,7 +12,6 @@ export default function Favorites() {
   // TODO: Create remove from favorites handler and pass with onClick for FavoritesButton
   return (
       <VStack spacing={6} marginTop={8}>
-        <SearchBar />
         <Heading>Favorites</Heading>
         {fakeRestaurantData.businesses.map(coffeeShop =>
           <CoffeeShopCard 
