@@ -15,8 +15,13 @@ export default function CoffeeShopCard({ coffeeShopData }) {
   const toggleTextColor = useColorModeValue('gray.600', 'gray.400');
   const [favorite, { error }] = useMutation(FAVORITE);
 
-  const { id, rating, review_count, name, location, url, image_url } = coffeeShopData;
-  const address = location.display_address;
+  const { id, rating, review_count, location, name, url, image_url } = coffeeShopData;
+  console.log('location', location);
+  // console.log('address' , location.display_address);
+  // console.log('addressOne' , location.display_address[0]);
+
+  // const addressOne = location.display_address[0];
+  // const addressTwo = location.display_address[1];
 
   const handleFavorite = async (id) => {
     if (!error) {
@@ -54,9 +59,9 @@ export default function CoffeeShopCard({ coffeeShopData }) {
           </Heading>
         </Link>
 
-        <Box fontSize={{base: 'sm', md: 'md'}}>
-          {address}
-        </Box>
+        {/* <Box fontSize={{base: 'sm', md: 'md'}}>
+          {addressOne}
+        </Box> */}
 
         <Box display='flex' mt='2' alignItems='center'>
           {Array(5)

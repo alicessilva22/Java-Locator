@@ -12,6 +12,7 @@ const Favorites = () => {
   if (loading) return <h1>Loading...</h1>;
 
   console.log(me);
+  console.log(me.favorites);
   
   return (
     <Container>
