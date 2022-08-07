@@ -1,11 +1,14 @@
 const { Schema, model } = require("mongoose");
 
 const favoriteSchema = new Schema({
-//   _id: {
-//     type: Number,
-//     required: true,
-//     unique: true,
-//   },
+  id: {
+    type: Number,
+    required: false,
+    unique: true,
+  },
+  // location: {
+  //   type: [String],
+  // },
   name: {
     type: String,
     // required: true,
