@@ -11,15 +11,16 @@ const Favorites = () => {
  
   if (loading) return <h1>Loading...</h1>;
 
-  console.log(me);
-  console.log(me.favorites);
+  
+  console.log("data", data);
+
   
   return (
     <Container>
       <div>
         <section>
           {me.favorites && me.favorites.map(shop => (
-            <CoffeeShopCard key={shop.id} coffeeShopData={shop}>
+            <CoffeeShopCard type="remove" key={shop.id} coffeeShopData={shop}>
             </CoffeeShopCard>)
           )}
         </section>

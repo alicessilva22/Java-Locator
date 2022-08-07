@@ -11,7 +11,7 @@ import FavoritesButton from './FavoritesButton';
 import { useMutation } from '@apollo/client';
 import { FAVORITE } from '../utils/mutations';
 
-export default function CoffeeShopCard({ coffeeShopData }) {
+export default function CoffeeShopCard({ coffeeShopData, type }) {
   const toggleTextColor = useColorModeValue('gray.600', 'gray.400');
   const [favorite, { error }] = useMutation(FAVORITE);
 
@@ -26,7 +26,16 @@ export default function CoffeeShopCard({ coffeeShopData }) {
   const handleFavorite = async (id) => {
     if (!error) {
       try {
-        await favorite(id);
+        await favorite({
+          variables: {
+            id,
+            rating,
+            review_count, 
+            name, 
+            url, 
+            image_url
+          }
+        });
       } catch (err) {
         console.log(err);
       }
@@ -77,7 +86,7 @@ export default function CoffeeShopCard({ coffeeShopData }) {
           </Box>
         </Box>
       </Box>
-      <FavoritesButton type="add" onClick={() => handleFavorite(id)}/>
+      <FavoritesButton type={type} onClick={() => handleFavorite(id)}/>
     </HStack>
   );
 }
