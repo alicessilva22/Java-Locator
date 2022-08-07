@@ -4,7 +4,7 @@ import { YELP_SEARCH } from "../utils/queries";
 import SearchBar from '../components/SearchBar';
 import { Container } from '@chakra-ui/react';
 import CoffeeShopCard from "../components/CoffeeShopCard";
-
+import Auth from "../utils/auth";
 
 const Home = () => {
   const [yelpSearch, { data, loading }] = useLazyQuery(YELP_SEARCH);
@@ -26,7 +26,7 @@ const Home = () => {
         <SearchBar handleSearch={handleSearch}/>
         <section>
           {shops.map(shop => (
-            <CoffeeShopCard key={shop.id} coffeeShopData={shop}>
+            <CoffeeShopCard type={ Auth.loggedIn() ? "add" : null } key={shop.id} coffeeShopData={shop}>
             </CoffeeShopCard>)
           )}
         </section>
