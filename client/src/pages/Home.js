@@ -2,7 +2,7 @@ import React from "react";
 import { useLazyQuery } from "@apollo/client";
 import { YELP_SEARCH } from "../utils/queries";
 import SearchBar from '../components/SearchBar';
-import { Container } from '@chakra-ui/react';
+import { VStack } from '@chakra-ui/react';
 import CoffeeShopCard from "../components/CoffeeShopCard";
 import Auth from "../utils/auth";
 
@@ -13,25 +13,21 @@ const Home = () => {
   if (loading) return <h1>Loading...</h1>;
   const handleSearch = async (location) => {
     const term = 'coffee';
-     await yelpSearch({
+    await yelpSearch({
       variables: { term, location },
     });
   };
 
-  // Components
-  
   return (
-    <Container>
-      <div>
-        <SearchBar handleSearch={handleSearch}/>
-        <section>
-          {shops.map(shop => (
-            <CoffeeShopCard type={ Auth.loggedIn() ? "add" : null } key={shop.id} coffeeShopData={shop}>
-            </CoffeeShopCard>)
-          )}
-        </section>
-      </div>
-    </Container>
+    <VStack>
+      <SearchBar handleSearch={handleSearch} />
+      <VStack as='section'>
+        {shops.map(shop => (
+          <CoffeeShopCard type={Auth.loggedIn() ? "add" : null} key={shop.id} coffeeShopData={shop}>
+          </CoffeeShopCard>)
+        )}
+      </VStack>
+    </VStack>
   );
 };
 
