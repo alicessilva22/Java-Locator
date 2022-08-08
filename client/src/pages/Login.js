@@ -128,7 +128,7 @@ export default function Login() {
                 </Button>
               </Stack>
             </form> :
-            <Text textAlign='center'>
+            <Text>
               Success! You may now head{' '}
               <RouteLink to="/">back to the homepage.</RouteLink>
             </Text>
