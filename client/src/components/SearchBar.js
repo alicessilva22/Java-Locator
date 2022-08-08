@@ -29,8 +29,6 @@ export default function SearchBar({ handleSearch }) {
           Search
         </Button>
       </InputRightElement>
-      {/* {console.log('here')}
-      {console.log(Input.value)} */}
     </InputGroup>
   )
   
